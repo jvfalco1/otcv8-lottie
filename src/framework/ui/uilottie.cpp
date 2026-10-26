@@ -135,6 +135,14 @@ void UILottie::loadFile(const std::string& path)
         g_logger.error(stdext::format("UILottie: '%s' is empty", path));
         return;
     }
+    // Only Lottie JSON reaches rlottie. It takes data starting with a zip
+    // signature as a dotLottie archive and, when that archive is broken or has
+    // a single entry, parses a null pointer (the client closes).
+    const size_t firstChar = data.find_first_not_of(" \t\r\n");
+    if (firstChar == std::string::npos || data[firstChar] != '{') {
+        g_logger.error(stdext::format("UILottie: '%s' is not Lottie JSON (.lottie archives are not supported)", path));
+        return;
+    }
 
     // Parsed before anything is cleared, so a broken file keeps the animation
     // that was playing. The path is the key of rlottie's model cache (10
