@@ -1,0 +1,169 @@
+LottieDemoView < UILottie
+  background-color: #00000040
+  border-width: 1
+  border-color: #ffffff20
+  image-smooth: true
+
+LottieDemoCaption < Label
+  color: #c8c8c8
+  text-auto-resize: true
+
+MainWindow
+  id: lottieDemoWindow
+  size: 720 450
+  !text: 'Lottie + OTClientV8'
+  @onEscape: modules.lottie_demo.hide()
+
+  Label
+    id: subtitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    color: #f0d080
+    text: UILottie (rlottie) - mods/lottie_demo/assets/Toogle.json
+
+  LottieDemoView
+    id: mainLottie
+    anchors.top: subtitle.bottom
+    anchors.left: parent.left
+    margin-top: 12
+    size: 420 228
+    lottie-source: assets/Toogle.json
+    lottie-loop: true
+    lottie-autoplay: true
+
+  LottieDemoCaption
+    id: mainCaption
+    anchors.top: mainLottie.bottom
+    anchors.left: mainLottie.left
+    margin-top: 6
+    text: Full animation, looping
+
+  Label
+    id: frameLabel
+    anchors.top: mainLottie.bottom
+    anchors.right: mainLottie.right
+    margin-top: 6
+    width: 200
+    text-align: right
+    color: #a0e0a0
+
+  Button
+    id: playButton
+    anchors.top: mainCaption.bottom
+    anchors.left: mainLottie.left
+    margin-top: 10
+    width: 76
+    text: Play
+    @onClick: modules.lottie_demo.play()
+
+  Button
+    id: pauseButton
+    anchors.top: playButton.top
+    anchors.left: prev.right
+    margin-left: 6
+    width: 76
+    text: Pause
+    @onClick: modules.lottie_demo.pause()
+
+  Button
+    id: restartButton
+    anchors.top: playButton.top
+    anchors.left: prev.right
+    margin-left: 6
+    width: 76
+    text: Restart
+    @onClick: modules.lottie_demo.restart()
+
+  Button
+    id: speedButton
+    anchors.top: playButton.top
+    anchors.left: prev.right
+    margin-left: 6
+    width: 96
+    text: Speed 1x
+    @onClick: modules.lottie_demo.nextSpeed()
+
+  LottieDemoView
+    id: toggleLottie
+    anchors.top: mainLottie.top
+    anchors.right: parent.right
+    size: 252 137
+    lottie-source: assets/Toogle.json
+    lottie-loop: true
+    phantom: false
+    change-cursor-image: true
+    cursor: pointer
+    @onClick: modules.lottie_demo.toggleDayNight()
+
+  LottieDemoCaption
+    id: toggleCaption
+    anchors.top: toggleLottie.bottom
+    anchors.left: toggleLottie.left
+    margin-top: 6
+    text: Click it: plays the file's markers
+
+  Label
+    id: markerLabel
+    anchors.top: toggleCaption.bottom
+    anchors.left: toggleLottie.left
+    anchors.right: toggleLottie.right
+    margin-top: 4
+    color: #a0c8ff
+
+  LottieDemoView
+    id: containLottie
+    anchors.top: markerLabel.bottom
+    anchors.left: toggleLottie.left
+    margin-top: 12
+    size: 96 96
+    lottie-source: assets/Toogle.json
+    lottie-speed: 2
+    lottie-autoplay: true
+
+  LottieDemoCaption
+    anchors.top: containLottie.bottom
+    anchors.horizontalCenter: containLottie.horizontalCenter
+    margin-top: 4
+    text: contain (default)
+
+  LottieDemoView
+    id: coverLottie
+    anchors.top: containLottie.top
+    anchors.left: containLottie.right
+    margin-left: 16
+    size: 96 96
+    lottie-source: assets/Toogle.json
+    lottie-cover: true
+    lottie-speed: 2
+    lottie-autoplay: true
+
+  LottieDemoCaption
+    anchors.top: coverLottie.bottom
+    anchors.horizontalCenter: coverLottie.horizontalCenter
+    margin-top: 4
+    text: cover
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: closeButton.top
+    margin-bottom: 10
+
+  Label
+    id: hint
+    anchors.left: parent.left
+    anchors.verticalCenter: closeButton.verticalCenter
+    color: #909090
+    text-auto-resize: true
+    text: Turn off: autoload: false in mods/lottie_demo/lottie_demo.otmod
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 76
+    text: Close
+    @onClick: modules.lottie_demo.hide()

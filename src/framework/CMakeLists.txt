@@ -378,6 +378,16 @@ if(FRAMEWORK_GRAPHICS)
     endif()
     message(STATUS "OpenGL ES: " ${OPENGLES})
 
+    # UILottie: Lottie animations rendered by rlottie (vcpkg port "rlottie")
+    option(FRAMEWORK_LOTTIE "Lottie animations (UILottie)" ON)
+    if(FRAMEWORK_LOTTIE AND NOT WASM)
+        # the port's rlottieConfig.cmake links the "rapidjson" target without importing it
+        find_package(RapidJSON CONFIG REQUIRED)
+        find_package(rlottie CONFIG REQUIRED)
+        set(framework_LIBRARIES ${framework_LIBRARIES} rlottie::rlottie)
+        set(framework_DEFINITIONS ${framework_DEFINITIONS} -DFW_LOTTIE)
+    endif()
+
     if(WIN32)
         option(WINDOWS_CONSOLE "Enables console window on Windows platform" OFF)
         if(WINDOWS_CONSOLE)
@@ -461,6 +471,8 @@ if(FRAMEWORK_GRAPHICS)
         ${CMAKE_CURRENT_LIST_DIR}/ui/uihorizontallayout.h
         ${CMAKE_CURRENT_LIST_DIR}/ui/uilayout.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ui/uilayout.h
+        ${CMAKE_CURRENT_LIST_DIR}/ui/uilottie.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ui/uilottie.h
         ${CMAKE_CURRENT_LIST_DIR}/ui/uimanager.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ui/uimanager.h
         ${CMAKE_CURRENT_LIST_DIR}/ui/uitextedit.cpp

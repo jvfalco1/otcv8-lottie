@@ -213,6 +213,11 @@ private:
 // event processing
 protected:
     virtual void onStyleApply(const std::string& styleName, const OTMLNodePtr& styleNode);
+    // Called once by destroy(), before the Lua onDestroy callback. The C++
+    // object itself lives until the last reference goes (often a Lua GC
+    // cycle later), so widgets owning big buffers or textures release them
+    // here instead of in their destructor.
+    virtual void onReleaseResources() {}
     virtual void onGeometryChange(const Rect& oldRect, const Rect& newRect);
     virtual void onLayoutUpdate();
     virtual void onFocusChange(bool focused, Fw::FocusReason reason);

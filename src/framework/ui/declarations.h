@@ -28,6 +28,7 @@
 class UIManager;
 class UIWidget;
 class UITextEdit;
+class UILottie;
 class UILayout;
 class UIBoxLayout;
 class UIHorizontalLayout;
@@ -39,6 +40,7 @@ class UIAnchorLayout;
 
 using UIWidgetPtr = std::shared_ptr<UIWidget>;
 using UITextEditPtr = std::shared_ptr<UITextEdit>;
+using UILottiePtr = std::shared_ptr<UILottie>;
 using UILayoutPtr = std::shared_ptr<UILayout>;
 using UIBoxLayoutPtr = std::shared_ptr<UIBoxLayout>;
 using UIHorizontalLayoutPtr = std::shared_ptr<UIHorizontalLayout>;

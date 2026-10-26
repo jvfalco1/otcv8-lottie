@@ -593,6 +593,7 @@
     <ClCompile Include="..\src\framework\ui\uihorizontallayout.cpp" />
     <ClCompile Include="..\src\framework\ui\uilayout.cpp" />
     <ClCompile Include="..\src\framework\ui\uimanager.cpp" />
+    <ClCompile Include="..\src\framework\ui\uilottie.cpp" />
     <ClCompile Include="..\src\framework\ui\uitextedit.cpp" />
     <ClCompile Include="..\src\framework\ui\uitranslator.cpp" />
     <ClCompile Include="..\src\framework\ui\uiverticallayout.cpp" />
@@ -784,6 +785,7 @@
     <ClInclude Include="..\src\framework\ui\uihorizontallayout.h" />
     <ClInclude Include="..\src\framework\ui\uilayout.h" />
     <ClInclude Include="..\src\framework\ui\uimanager.h" />
+    <ClInclude Include="..\src\framework\ui\uilottie.h" />
     <ClInclude Include="..\src\framework\ui\uitextedit.h" />
     <ClInclude Include="..\src\framework\ui\uitranslator.h" />
     <ClInclude Include="..\src\framework\ui\uiverticallayout.h" />

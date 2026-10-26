@@ -26,6 +26,9 @@
 #include "uimanager.h"
 #include "uiwidget.h"
 #include "uitextedit.h"
+#ifdef FW_LOTTIE
+#include "uilottie.h"
+#endif
 #include "uilayout.h"
 #include "uihorizontallayout.h"
 #include "uiverticallayout.h"

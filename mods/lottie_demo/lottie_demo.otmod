@@ -1,0 +1,13 @@
+Module
+  name: lottie_demo
+  description: Opens a window that shows UILottie (Lottie animations) at startup
+  author: otcv8-lottie
+  website: https://github.com/OTAcademy/otclientv8
+  // set autoload to false (or delete mods/lottie_demo) to stop opening the demo at startup
+  autoload: true
+  autoload-priority: 1000
+  sandboxed: true
+  dependencies: [ client_styles ]
+  scripts: [ lottie_demo ]
+  @onLoad: init()
+  @onUnload: terminate()

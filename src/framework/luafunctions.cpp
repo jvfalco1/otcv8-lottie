@@ -810,6 +810,35 @@ void Application::registerLuaFunctions()
     g_lua.bindClassMemberFunction<UIFlexBox>("getAlignItems", &UIFlexBox::getAlignItems);
     g_lua.bindClassMemberFunction<UIFlexBox>("isUIFlexBox", &UIFlexBox::isUIFlexBox);
 
+#ifdef FW_LOTTIE
+    // UILottie
+    g_lua.registerClass<UILottie, UIWidget>();
+    g_lua.bindClassStaticFunction<UILottie>("create", []{ return std::make_shared<UILottie>(); } );
+    g_lua.bindClassMemberFunction<UILottie>("setLottieSource", &UILottie::setLottieSource);
+    g_lua.bindClassMemberFunction<UILottie>("getLottieSource", &UILottie::getLottieSource);
+    g_lua.bindClassMemberFunction<UILottie>("isLoaded", &UILottie::isLoaded);
+    g_lua.bindClassMemberFunction<UILottie>("clearLottie", &UILottie::clearLottie);
+    g_lua.bindClassMemberFunction<UILottie>("play", &UILottie::play);
+    g_lua.bindClassMemberFunction<UILottie>("pause", &UILottie::pause);
+    g_lua.bindClassMemberFunction<UILottie>("setPaused", &UILottie::setPaused);
+    g_lua.bindClassMemberFunction<UILottie>("isPaused", &UILottie::isPaused);
+    g_lua.bindClassMemberFunction<UILottie>("seek", &UILottie::seek);
+    g_lua.bindClassMemberFunction<UILottie>("reset", &UILottie::reset);
+    g_lua.bindClassMemberFunction<UILottie>("playSegment", &UILottie::playSegment);
+    g_lua.bindClassMemberFunction<UILottie>("playFrames", &UILottie::playFrames);
+    g_lua.bindClassMemberFunction<UILottie>("getMarkers", &UILottie::getMarkers);
+    g_lua.bindClassMemberFunction<UILottie>("setLoop", &UILottie::setLoop);
+    g_lua.bindClassMemberFunction<UILottie>("isLoop", &UILottie::isLoop);
+    g_lua.bindClassMemberFunction<UILottie>("setSpeed", &UILottie::setSpeed);
+    g_lua.bindClassMemberFunction<UILottie>("getSpeed", &UILottie::getSpeed);
+    g_lua.bindClassMemberFunction<UILottie>("setCoverScaling", &UILottie::setCoverScaling);
+    g_lua.bindClassMemberFunction<UILottie>("getCurrentFrame", &UILottie::getCurrentFrame);
+    g_lua.bindClassMemberFunction<UILottie>("getTotalFrames", &UILottie::getTotalFrames);
+    g_lua.bindClassMemberFunction<UILottie>("getFrameRate", &UILottie::getFrameRate);
+    g_lua.bindClassMemberFunction<UILottie>("getDuration", &UILottie::getDuration);
+    g_lua.bindClassMemberFunction<UILottie>("getElapsed", &UILottie::getElapsed);
+#endif
+
     // UITextEdit
     g_lua.registerClass<UITextEdit, UIWidget>();
     g_lua.bindClassStaticFunction<UITextEdit>("create", []{ return std::make_shared<UITextEdit>(); } );

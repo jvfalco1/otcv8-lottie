@@ -33,6 +33,12 @@ public:
     Texture(const ImagePtr& image, bool buildMipmaps = false, bool compress = false, bool smooth = false);
     virtual ~Texture();
     virtual void replace(const ImagePtr& image);
+    // Queues new pixels for a texture that keeps changing (one animation
+    // frame after another). The upload happens in update(), on the render
+    // thread, reusing the GL texture (glTexSubImage2D when the size is the
+    // same). Thread safe. Meant for textures with canCache == false: the atlas
+    // keys its copies by the unique id, which this does not change.
+    void updatePixels(const ImagePtr& image);
     void resize(const Size& size);
 
     // update must be called always before drawing, only this function can use opengl functions
@@ -92,6 +98,8 @@ protected:
     bool m_needsUpdate = false;
     bool m_canCache = true;
     ImagePtr m_image;
+    std::mutex m_pendingMutex;
+    ImagePtr m_pendingImage; // guarded by m_pendingMutex, set by updatePixels
 
     std::vector<char> m_transparentPixels; // vector of chars is better than vector of bools, silly C++
 };

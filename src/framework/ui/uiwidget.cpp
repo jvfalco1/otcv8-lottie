@@ -834,6 +834,7 @@ void UIWidget::internalDestroy()
         child->internalDestroy();
     m_children.clear();
 
+    onReleaseResources();
     callLuaField("onDestroy");
 
     releaseLuaFieldsTable();

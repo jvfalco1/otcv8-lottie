@@ -89,6 +89,20 @@ void Texture::replace(const ImagePtr& image)
     m_needsUpdate = true;
 }
 
+void Texture::updatePixels(const ImagePtr& image)
+{
+    if (!image) {
+        g_logger.fatal("Texture can't be updated with null image!");
+        return;
+    }
+
+    // m_image belongs to the render thread (update() reads and frees it), so
+    // the new pixels wait in their own slot. A frame that is replaced before
+    // the render thread picks it up is simply dropped.
+    std::lock_guard<std::mutex> lock(m_pendingMutex);
+    m_pendingImage = image;
+}
+
 void Texture::resize(const Size& size)
 {
     if(m_id == 0) 
@@ -102,7 +116,15 @@ void Texture::resize(const Size& size)
 
 void Texture::update()
 {
+    ImagePtr pendingImage;
+    {
+        std::lock_guard<std::mutex> lock(m_pendingMutex);
+        pendingImage = std::move(m_pendingImage);
+    }
+
     if (m_id == 0) {
+        if (pendingImage)
+            m_image = pendingImage;
         glGenTextures(1, &m_id);
         VALIDATE(m_id != 0);
         glBindTexture(GL_TEXTURE_2D, m_id);
@@ -118,8 +140,30 @@ void Texture::update()
         m_image = nullptr; // free image
         m_needsUpdate = true;
         g_graphics.checkForError(__FUNCTION__, __FILE__, __LINE__);
+    } else if (pendingImage) {
+        // updatePixels() path: same GL texture, new pixels. Same size =
+        // glTexSubImage2D (no reallocation); a new size reallocates the
+        // storage of the same texture id.
+        glBindTexture(GL_TEXTURE_2D, m_id);
+        const Size& newSize = pendingImage->getSize();
+        if (newSize == m_size) {
+            GLenum format = GL_RGBA;
+            switch (pendingImage->getBpp()) {
+                case 3: format = GL_RGB; break;
+                case 2: format = GL_LUMINANCE_ALPHA; break;
+                case 1: format = GL_LUMINANCE; break;
+                default: break;
+            }
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, newSize.width(), newSize.height(), format, GL_UNSIGNED_BYTE,
+                            pendingImage->getPixelData());
+        } else {
+            setupSize(newSize);
+            setupPixels(0, newSize, pendingImage->getPixelData(), pendingImage->getBpp());
+            m_needsUpdate = true; // the transform matrix depends on the size
+        }
+        g_graphics.checkForError(__FUNCTION__, __FILE__, __LINE__);
     }
-    
+
     if (m_needsUpdate) {
         glBindTexture(GL_TEXTURE_2D, m_id);
         setupWrap();

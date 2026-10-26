@@ -327,6 +327,9 @@
     <ClCompile Include="..\src\framework\ui\uimanager.cpp">
       <Filter>Source Files\framework\ui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\framework\ui\uilottie.cpp">
+      <Filter>Source Files\framework\ui</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\framework\ui\uitextedit.cpp">
       <Filter>Source Files\framework\ui</Filter>
     </ClCompile>
@@ -870,6 +873,9 @@
       <Filter>Header Files\framework\ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\framework\ui\uimanager.h">
+      <Filter>Header Files\framework\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\framework\ui\uilottie.h">
       <Filter>Header Files\framework\ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\framework\ui\uitextedit.h">
